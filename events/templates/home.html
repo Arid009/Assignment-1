@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+
+    <title>Document</title>
+</head>
+<body class="bg-purple-200">
+    {% extends "navbar.html" %}
+    {% block events %}
+    <div class="max-w-[1400px] mx-auto ">
+        {% comment %} <header class="flex justify-between py-4 px-3 items-center bg-purple-600 text-white mb-8">
+            <h1 class="text-2xl font-semibold">Event Management</h1>
+            <div class="flex items-center gap-4">
+                <a href="{% url 'home' %}" class="font-bold">Home</a>
+                 <a href=""></a>
+                <a href=""></a>
+                <a href=""></a>
+            </div>
+        </header> {% endcomment %}
+
+        {% comment %} {% include "navbar.html" %} {% endcomment %}
+
+
+        <main>
+            <div class="text-center flex justify-center h-screen items-center py-8">
+                <div>
+                    <h1 class='text-4xl text-purple-700 font-bold'>Welecome to Event Management</h1>
+                    <h1 class='text-2xl mt-4 font-bold'>We will help you to arrange the event</h1>
+                    
+                </div>
+            </div>
+
+            <div class='mt-7 '>
+                <h1 class="text-center text-3xl text-purple-600">All Events</h1>
+
+                <div class="grid grid-cols-2">
+                    <div class="flex items-center justify-center gap-4 mt-3">
+                        <h2 class="text-center text-3xl text-purple-600">Search</h2>
+                        <form action="{% url "home" %}" method="get">
+                            <input type="text" name="q" class="border bg-white py-2 px-3 rounded-sm" placeholder="Search by name">
+                            <button type="submit" class=" rounded-md py-2 text-white bg-purple-700 px-2">Search</button>
+                        </form>
+                    </div>
+                    <div class="flex flex-col justify-center gap-3 items-center">
+                        <h2 class="text-3xl text-purple-600 ">Filter</h2>
+                        <div>
+                            <form action="{% url "home" %}" method="get">
+                                <input type="text" name="c" class="border bg-white py-2 px-3 rounded-sm" placeholder="Filter by category">
+                                <button type="submit" class=" rounded-md py-2 text-white bg-purple-700 px-2">Filter</button>
+                            </form>
+                        </div>
+                        <div>
+                            <form action="{% url "home" %}" method="get">
+                                <input type="text" name="s" class="border bg-white py-2 px-3 rounded-sm" placeholder="Start Date: YY-MM-DD">
+
+                                <input type="text" name="e" class="border bg-white py-2 px-3 rounded-sm" placeholder="End date">
+
+                                <button type="submit" class=" rounded-md py-2 text-white bg-purple-700 px-2">Filter</button>
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="px-2">
+                    {% for event in all_events %}
+                        <div class="border shadow-lg mt-7 p-6 rounded-md">
+                            <div class="">
+                                <h1 class="text-2xl text-purple-600">Event Name: {{ event.name}} </h1>
+
+                                <p class='text-xl my-3'> Description:  {{event.description}} </p>
+
+                                <div class="flex text-lg font-semibold gap-10">
+                                    <p>Category: {{event.category}} </p>
+                                    <p>Location: {{event.location}} </p>
+                                    <p>Participants Count: {{ event.participants.all|length }} </p>
+
+                                </div>
+                                <br>
+
+                                <a href="{% url "event-detail" event.id %}" class="py-3 mt-5 text-lg rounded-lg text-white bg-purple-700 px-4">Detail</a>
+                            </div>
+                        </div>
+                        {% empty %}
+                            <h2 class="text-center text-2xl my-4 ">No event Found</h2>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+        </main>
+
+        
+    </div>
+    {% endblock events %}
+</body>
+</html>

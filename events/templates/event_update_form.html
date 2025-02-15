@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <title>Document</title>
+</head>
+<body>
+    {% extends "navbar.html" %}
+    {% block events %}
+    {% comment %} <h1 class="text-center mt-12 text-3xl text-purple-600 font-semibold">Create Event</h1> {% endcomment %}
+    <div class="w-1/2 mx-auto mt-8">
+        <div>
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="px-2 py-1 {% if message.tags == 'success' %}bg-green-500{% endif %} ">{{message}}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+            {{ event_form }}
+            <button class="mb-5 bg-purple-600 px-3 py-2 text-white mt-2 rounded-md" type="submit">Submit</button>
+        </form>
+    </div>
+    {% endblock events %}
+</body>
+</html>

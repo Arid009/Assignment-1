@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+</head>
+
+<body class="bg-purple-100 ">
+    {% extends "navbar.html" %}
+    {% block events %}
+    <div class="max-w-[1400px] px-2 mx-auto">
+        
+
+        <main>
+            <div class="grid grid-cols-4 mt-4 gap-6 mb-8">
+                <!-- Total Events  -->
+                <a href="{% url 'manager-dashboard' %}?type=all">
+                <div class="bg-blue-200 rounded-xl p-6 shadow-sm">
+                    <h3 class="text-lg font-medium text-purple-500 mb-4">Total Events</h3>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-3xl font-semibold mb-1">{{counts.total}} </p>
+                        </div>
+                    </div>
+                </div>
+                </a>    
+                <!-- Participants  -->
+                <div class="bg-blue-200 rounded-xl p-6 shadow-sm">
+                    <h3 class="text-lg font-medium text-purple-500 mb-4">
+                        Participants
+                    </h3>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-3xl font-semibold mb-1">{{total_people}} </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Previous  -->
+                <a href="{% url 'manager-dashboard' %}?type=previous">
+
+                    <div class="bg-blue-200 rounded-xl p-6 shadow-sm">
+                        <h3 class="text-lg font-medium text-purple-500 mb-4">
+                            Previous Events
+                        </h3>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-3xl font-semibold mb-1">{{counts.previous}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <!-- upcoming-->
+                <a href="{% url 'manager-dashboard' %}?type=upcoming">
+
+                    <div class="bg-blue-200 rounded-xl p-6 shadow-sm">
+                        <h3 class="text-lg font-medium text-purple-500 mb-4">Upcoming Events</h3>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-3xl font-semibold mb-1">{{counts.upcoming}} </p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            {% block manage %}
+              
+            {% endblock manage %}
+        </main>
+
+
+    </div>
+    {% endblock events %}
+</body>
+
+</html>

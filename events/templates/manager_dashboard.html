@@ -1,0 +1,47 @@
+{% extends "dashboard.html" %}
+{% block manage %}
+<div class="max-w-[1400px] mx-auto">
+    <a href="{% url "all-part" %}">See all Participants</a>
+    <a href="{% url "all-cat" %}">See all Categories</a>
+
+
+<div class="bg-blue-200 rounded-xl shadow-lg">
+    <div
+      class="grid grid-cols-4 p-4 border-b border-gray-100 text-lg text-purple-500 font-semibold"
+    >
+      <div>Event Name</div>
+      <div>Category</div>
+      <div>Participant</div>
+      <div>date</div>
+    </div>
+    <!-- Task Items  -->
+    <div class="divide-y divide-gray-100">
+     {% for event in all_events %}
+       <!-- event 1 -->
+       <div class="grid grid-cols-4 gap-4 p-4 items-center">
+        <div class="flex items-center gap-2">
+          <span>{{event.name}}</span>
+          <a href='{% url "update-event" event.id %}' class="px-2 rounded-md text-white py-1 bg-green-500">Edit</a>
+          <form action='{% url "delete-event" event.id %}' method='POST'>
+            {% csrf_token %}
+            <button type='submit' class="px-2 py-1 rounded-md text-white bg-red-500">Delete</button>
+          </form>
+        </div>
+        <div>
+          <span
+            class="px-3 py-1 rounded-full bg-purple-100 text-purple-600 text-sm"
+            >{{event.category}}</span
+          >
+        </div>
+        <div class="flex -space-x-2">
+            {{event.participants.all|length}}
+        </div>
+        <div class="text-gray-500">{{event.date}}</div>
+      </div>
+     {% endfor %}
+
+    </div>
+</div>
+
+</div>
+{% endblock manage %}

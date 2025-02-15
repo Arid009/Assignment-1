@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+
+    <title>Document</title>
+</head>
+<body class="bg-purple-200">
+    {% extends "navbar.html" %}
+    {% block events %}
+    <div class="max-w-[1400px]  mx-auto ">
+        <div class="text-center mt-3">
+            <h1 class="text-3xl text-blue-700 font-semibold">Event Name: {{event.name}}</h1>
+            <p class="text-xl my-5">Event Description: {{event.description}}</p>
+            <br>
+            
+            <div class="border rounded-md w-1/2 mx-auto border-blue-600">
+                <h1 class="text-2xl my-5 font-bold text-blue-800" >Participants</h1>
+                {% for part in participants %}
+                    <div class="my-3 text-lg">
+                        <div>
+                            <p> <span class="text-purple-600">Name: </span> {{part.name}}</p>
+                            <p> <span class="text-purple-600">Email:</span> {{part.email}} </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+    {% endblock events %}
+</body>
+</html>

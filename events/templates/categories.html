@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <title>Document</title>
+</head>
+<body>
+  {% extends "navbar.html" %}
+  {% block events %}
+    <div class="">
+      <h1 class="text-3xl text-center">All Categories</h1>
+        <div class="grid grid-cols-2 p-4 border-b border-gray-100 text-lg text-gray-500">
+        <div>Name</div>
+        <div>Description</div>
+      </div>
+      <div class="divide-y divide-gray-100">
+        <!-- cat 1 -->
+        {% for cat in all_cat %}
+        <div class="grid grid-cols-2 gap-4 p-4 items-center">
+          <div class="flex items-center gap-2">
+            
+            <p class="text-lg">{{cat.name}}</p>
+            <a href='{% url "update-cat" cat.id %}' class="px-2 rounded-md text-white py-1 bg-green-500">Edit</a>
+          <form action='{% url "delete-cat" cat.id %}' method='POST'>
+            {% csrf_token %}
+            <button type='submit' class="px-2 py-1 rounded-md text-white bg-red-500">Delete</button>
+          </form>
+          </div>
+          <div>
+            <p class="text-lg">{{cat.description}} </p>
+          </div>
+          
+        
+        </div>
+        {% endfor %}
+
+      </div>
+    </div>
+    
+  {% endblock events %}
+</body>
+</html>
