@@ -88,7 +88,7 @@ def update_event(request,id):
         if event_form.is_valid():
             event_form.save()
             messages.success(request, "Event Updated Successfully")
-            return redirect('update-event')
+            return redirect('manager-dashboard')
 
     context = {"event_form": event_form}
     return render(request, "event_update_form.html", context)
