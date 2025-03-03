@@ -4,44 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-
     <title>Document</title>
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 </head>
-<body class="bg-gradient-to-r from-amber-100 to-amber-300">
+<body class="">
     {% extends "navbar.html" %}
     {% block events %}
-    <div class="max-w-[1400px] mx-auto ">
-        {% comment %} <header class="flex justify-between py-4 px-3 items-center bg-purple-600 text-white mb-8">
-            <h1 class="text-2xl font-semibold">Event Management</h1>
-            <div class="flex items-center gap-4">
-                <a href="{% url 'home' %}" class="font-bold">Home</a>
-                 <a href=""></a>
-                <a href=""></a>
-                <a href=""></a>
-            </div>
-        </header> {% endcomment %}
-
+    <div class="max-w-[1400px] font-[Poppins] mx-auto ">
         <main>
-            <div class="text-center gap-8 flex justify-center h-screen items-center py-8">
+            <div class="text-center text-white gap-8 bg-black flex justify-center h-screen items-center py-8">
                 <div>
                     <h1 class='text-4xl  font-bold'>Welecome to <br> Event Management</h1>
                     <h1 class='text-2xl mt-4 font-bold'>We will help you to arrange the event</h1>
-                    
+                    <br>
+                    <a href="#all-events" class="py-3 mt-5  rounded-lg bg-white hover:bg-white/40 hover:text-white text-black px-4">
+                        See Events
+                    </a>
+
                 </div>
                 <div>
-                    <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGV2ZW50fGVufDB8fDB8fHww" alt="">
+                    <dotlottie-player src="https://lottie.host/2c9d6f7f-9381-4ef2-874e-3f3803cc2af3/PEwMN45gB5.lottie" background="transparent" speed="1" style="width: 700px; height: 700px" loop autoplay></dotlottie-player>
                 </div>
             </div>
 
-            <div class='mt-7 '>
-                <h1 class="text-center text-3xl font-bold ">All Events</h1>
+            <div class='mt-7 ' id="all-events">
+                <h1 class="text-center text-3xl font-semibold ">All Events</h1>
 
                 <div class="grid grid-cols-2">
                     <div class="flex items-center justify-center gap-4 mt-3">
                         <h2 class="text-center text-3xl">Search</h2>
                         <form action="{% url "home" %}" method="get">
                             <input type="text" name="q" class="border bg-white py-2 px-3 rounded-sm" placeholder="Search by name">
-                            <button type="submit" class=" rounded-md py-2 text-white bg-gradient-to-r from-amber-600 to-amber-800 px-2">Search</button>
+                            <button type="submit" class=" rounded-md py-2 bg-black hover:bg-black/10 hover:text-black text-white px-2">Search</button>
                         </form>
                     </div>
                     <div class="flex flex-col justify-center gap-3 items-center">
@@ -49,7 +43,7 @@
                         <div>
                             <form action="{% url "home" %}" method="get">
                                 <input type="text" name="c" class="border bg-white py-2 px-3 rounded-sm" placeholder="Filter by category">
-                                <button type="submit" class=" rounded-md py-2 text-white bg-gradient-to-r from-amber-600 to-amber-800 px-2">Filter</button>
+                                <button type="submit" class=" rounded-md py-2 bg-black hover:bg-black/10 hover:text-black text-white  px-2">Filter</button>
                             </form>
                         </div>
                         <div>
@@ -58,7 +52,7 @@
 
                                 <input type="text" name="e" class="border bg-white py-2 px-3 rounded-sm" placeholder="End date">
 
-                                <button type="submit" class=" rounded-md py-2 text-white bg-gradient-to-r from-amber-600 to-amber-800 px-2">Filter</button>
+                                <button type="submit" class=" rounded-md py-2 bg-black hover:bg-black/10 hover:text-black text-white  px-2">Filter</button>
                             </form>
                         </div>
 
@@ -68,7 +62,7 @@
 
                 <div class="px-2 grid grid-cols-2 gap-4">
                     {% for event in all_events %}
-                        <div class="border shadow-lg mt-7 bg-amber-200 p-6 rounded-md">
+                        <div class="border shadow-lg mt-7 bg-black text-white p-6 rounded-md">
                             <div class="">
                                 <h1 class="text-2xl underline">Event Name: <span class=""> {{ event.name}}</span> </h1>
 
@@ -82,7 +76,7 @@
                                 </div>
                                 <br>
 
-                                <a href="{% url "event-detail" event.id %}" class="py-3 mt-5 text-lg rounded-lg text-white bg-gradient-to-r from-amber-600 to-amber-800 px-4">Detail</a>
+                                <a href="{% url "event-detail" event.id %}" class="py-3 mt-5  rounded-lg bg-white hover:bg-white/40 hover:text-white text-black px-4">Detail</a>
                             </div>
                         </div>
                         {% empty %}

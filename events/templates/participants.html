@@ -9,9 +9,9 @@
 <body>
   {% extends "navbar.html" %}
   {% block events %}
-    <div class="">
-      <h1 class="text-3xl text-center">All Participants</h1>
-        <div class="grid grid-cols-2 p-4 border-b border-gray-100 text-lg text-gray-500">
+  <h1 class="text-3xl my-4 text-center">All Participants</h1>
+    <div class="container rounded-sm border mx-auto">
+      <div class="grid grid-cols-2 p-4 border-b border-gray-100 text-lg text-white bg-black">
         <div>Name</div>
         <div>Email</div>
       </div>
@@ -22,11 +22,11 @@
           <div class="flex items-center gap-2">
             
             <p class="text-lg">{{part.name}}</p>
-            <a href='{% url "update-part" part.id %}' class="px-2 rounded-md text-white py-1 bg-green-500">Edit</a>
-          <form action='{% url "delete-part" part.id %}' method='POST'>
-            {% csrf_token %}
-            <button type='submit' class="px-2 py-1 rounded-md text-white bg-red-500">Delete</button>
-          </form>
+            <a href='{% url "update-part" part.id %}' class="px-2 rounded-md text-white py-1 bg-black hover:bg-black/20 hover:text-black">Edit</a>
+            <form action='{% url "delete-part" part.id %}' method='POST'>
+              {% csrf_token %}
+              <button type='submit' class="px-2 py-1 bg-black hover:bg-black/20 hover:text-black rounded-md text-white">Delete</button>
+            </form>
           </div>
           <div>
             <p class="text-lg">{{part.email}} </p>

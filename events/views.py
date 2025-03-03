@@ -7,6 +7,8 @@ from events.forms import EventModelForm,CategoryForm,ParticipantForm
 
 
 # Create your views here.
+def show_opt(req):
+    return render(req,'opt_create_del.html')
 
 def home(req):
     # all_events = Event.objects.select_related('category').prefetch_related('participants').all()

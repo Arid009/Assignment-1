@@ -8,6 +8,10 @@ class StyledFormMixin:
 
     default_classes = "border-2 border-gray-300 w-full p-3 mb-8 rounded-lg shadow-sm "
 
+    def __init__(self, *arg, **kwarg):
+        super().__init__(*arg, **kwarg)
+        self.apply_styled_widgets()
+        
     def apply_styled_widgets(self):
         for field_name, field in self.fields.items():
             if isinstance(field.widget, forms.TextInput):

@@ -11,7 +11,8 @@
     {% extends "navbar.html" %}
     {% block events %}
     <div class="max-w-[1400px] mx-auto">
-        {% comment %} <h1 class="text-center mt-12 text-3xl text-purple-600 font-semibold">Create Participants</h1> {% endcomment %}
+        <h1 class="text-center my-4 text-2xl ">Create Participants</h1>
+
         <div class="w-1/2 mx-auto mt-8">
             <div>
                 {% if messages %}
@@ -23,7 +24,7 @@
             <form method="POST">
                 {% csrf_token %}
                 {{ participants_form }}
-                <button class="mb-5 bg-gradient-to-r from-amber-600 to-amber-800 px-3 py-2 text-white mt-2 rounded-md" type="submit">Submit</button>
+                <button class="mb-5 bg-black hover:bg-black/20 hover:text-black px-3 py-2 text-white mt-2 rounded-md" type="submit">Submit</button>
             </form>
         </div>
     </div>

@@ -1,15 +1,15 @@
 {% extends "dashboard.html" %}
 {% block manage %}
-<div class="max-w-[1400px] mx-auto">
-    <div class="my-3">
+<div class="max-w-[1400px] font-[Poppins] mx-auto">
+    {% comment %} <div class="my-3">
       <a href="{% url "all-part" %}" class="mb-5 bg-red-500 px-3 py-2 text-white mt-2 rounded-md">See all Participants</a>
       <a href="{% url "all-cat"  %}" class="mb-5 bg-red-500 px-3 py-2 text-white mt-2 rounded-md">See all Categories</a>
-    </div>
+    </div> {% endcomment %}
 
 
-<div class="bg-amber-100 rounded-xl shadow-lg">
+<div class="bg-black text-white rounded-xl shadow-lg">
     <div
-      class="grid grid-cols-4 p-4 border-b border-gray-100 text-lg  font-semibold"
+      class="grid grid-cols-4 p-4 border-b border-gray-100 text-lg  font-medium"
     >
       <div>Event Name</div>
       <div>Category</div>
@@ -22,16 +22,13 @@
        <!-- event 1 -->
        <div class="grid grid-cols-4 gap-4 p-4 items-center">
         <div class="flex items-center gap-2">
-          <span>{{event.name}}</span>
-          <a href='{% url "update-event" event.id %}' class="px-2 rounded-md text-white py-1 bg-green-500">Edit</a>
-          <form action='{% url "delete-event" event.id %}' method='POST'>
-            {% csrf_token %}
-            <button type='submit' class="px-2 py-1 rounded-md text-white bg-red-500">Delete</button>
-          </form>
+          <a href="{% url "event-detail" event.id %}"><span>{{event.name}}</span></a>
+          
+          
         </div>
         <div>
           <span
-            class="px-3 py-1 rounded-full bg-purple-100  text-sm"
+            class="px-3 py-1 rounded-full bg-white text-black text-sm"
             >{{event.category}}</span
           >
         </div>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+</head>
+
+<body class=" ">
+    {% extends "navbar.html" %}
+    {% block events %}
+    <div class="max-w-[1400px] px-2 mx-auto">
+        
+
+        <main>
+            <div class="grid grid-cols-3 mt-4 gap-6 mb-8">
+                <!-- Total Events  -->
+                <a href="{% url 'create-event' %}">
+                    <div class="hover:bg-black hover:text-white rounded-xl bg-gray-200 p-6 shadow-sm">
+                        
+                        <div class="flex justify-center">
+                            
+                            <dotlottie-player src="https://lottie.host/0bdedc47-dc25-4272-a959-b1faf0985fcd/73ScHsqNqx.lottie" background="transparent" speed="1" style="width: 200px; height: 200px" loop autoplay></dotlottie-player>
+                        </div>
+                        <h3 class="text-center text-2xl font-medium  mb-4">Create Events</h3>
+                        
+                    </div>
+                </a>
+                <!-- Previous  -->
+                <a href="{% url 'create-participants' %}">
+
+                    <div class="hover:bg-black hover:text-white rounded-xl bg-gray-200 p-6 shadow-sm">
+                        <div class="flex justify-center">
+                            
+                            <dotlottie-player src="https://lottie.host/4d9549ab-2c55-4379-b825-df81480ad3e8/9Uj5je0KXl.lottie" background="transparent" speed="1" style="width: 200px; height: 200px" loop autoplay></dotlottie-player>
+                        </div>
+                        <h3 class="text-center text-2xl font-medium  mb-4">Create Participants</h3>
+                    </div>
+                </a>
+                <!-- Category-->
+                <a href="{% url 'create-category' %}">
+
+                    <div class="hover:bg-black hover:text-white rounded-xl bg-gray-200 p-6 shadow-sm">
+                        
+                        <div class="flex  justify-center">
+                            
+                            <dotlottie-player src="https://lottie.host/a1734d42-3071-4b23-a859-c791fd8fccc7/H1ehEAxnr6.lottie" background="transparent" speed="1" style="width: 200px; height: 200px" loop autoplay></dotlottie-player>
+                        </div>
+                        <h3 class="text-center text-2xl font-medium  mb-4">Create Category</h3>
+                    </div>
+                </a>
+                <!-- Category-->
+                <a href="{% url 'manager-dashboard' %}?type=upcoming">
+
+                    <div class="hover:bg-black hover:text-white rounded-xl bg-gray-200 p-6 shadow-sm">
+                        
+                        <div class="flex  justify-center">
+                            
+                            <dotlottie-player src="https://lottie.host/9681fc43-6480-4b88-82ed-ac99ec9a223c/FSBWcr43bI.lottie" background="transparent" speed="1" style="width: 200px; height: 200px" loop autoplay></dotlottie-player>
+                        </div>
+                        <h3 class="text-center text-2xl font-medium  mb-4">See All Events</h3>
+                    </div>
+                </a>
+                <!-- Category-->
+                <a href="{% url 'all-part' %}?type=upcoming">
+
+                    <div class="hover:bg-black hover:text-white rounded-xl bg-gray-200 p-6 shadow-sm">
+                        
+                        <div class="flex  justify-center">
+                            
+                            <dotlottie-player src="https://lottie.host/9681fc43-6480-4b88-82ed-ac99ec9a223c/FSBWcr43bI.lottie" background="transparent" speed="1" style="width: 200px; height: 200px" loop autoplay></dotlottie-player>
+                        </div>
+                        <h3 class="text-center text-2xl font-medium  mb-4">See All Participants</h3>
+                    </div>
+                </a>
+                <!-- Category-->
+                <a href="{% url 'all-cat' %}?type=upcoming">
+
+                    <div class="hover:bg-black hover:text-white rounded-xl bg-gray-200 p-6 shadow-sm">
+                        
+                        <div class="flex  justify-center">
+                            
+                            <dotlottie-player src="https://lottie.host/9681fc43-6480-4b88-82ed-ac99ec9a223c/FSBWcr43bI.lottie" background="transparent" speed="1" style="width: 200px; height: 200px" loop autoplay></dotlottie-player>
+                        </div>
+                        <h3 class="text-center text-2xl font-medium  mb-4">See All Categories</h3>
+                    </div>
+                </a>
+            </div>
+        </main>
+
+
+    </div>
+    {% endblock events %}
+</body>
+
+</html>
