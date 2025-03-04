@@ -1,14 +1,28 @@
 from django.shortcuts import render,redirect
-from events.models import Event,Participant,Category
+from events.models import Event,Category
 from django.contrib import messages
 from django.utils import timezone
 from django.db.models import Count,Q
-from events.forms import EventModelForm,CategoryForm,ParticipantForm
+from events.forms import EventModelForm,CategoryForm
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required, user_passes_test,permission_required
+from users.views import is_admin
 
 
 # Create your views here.
+@login_required
 def show_opt(req):
     return render(req,'opt_create_del.html')
+
+def is_organizer(user):
+    return user.groups.filter(name='Organizer').exists()
+
+def is_participant(user):
+    print(user.groups)
+    return user.groups.filter(name='Participant').exists()
+
+def no_permission(request):
+    return render(request, 'no_permission.html')
 
 def home(req):
     # all_events = Event.objects.select_related('category').prefetch_related('participants').all()
@@ -34,10 +48,12 @@ def home(req):
     }
     return render(req,'home.html',context)
 
-def manager_dashboard(request):
+
+def organizer_dashboard(request):
     all_events = Event.objects.select_related('category').prefetch_related('participants').all()
     curr_date = timezone.now()
-    total_people = Participant.objects.count()
+    total_people = User.objects.count()
+    user=request.user
 
     type = request.GET.get('type','today')
 
@@ -49,6 +65,8 @@ def manager_dashboard(request):
         all_events = base_query.filter(date__gt=curr_date)
     elif type == 'today':
         all_events = base_query.filter(date=curr_date)
+    elif type == 'rsvp':
+        all_events = base_query.filter(participants=user)
     elif type=='all':
         all_events = base_query.all()
 
@@ -57,21 +75,27 @@ def manager_dashboard(request):
         previous = Count('id',filter=Q(date__lt=curr_date)),
         total = Count('id')
     )
+    
+    rsvp = Event.objects.filter(participants=user).count()
 
     context={
         'all_events': all_events,
         'counts':counts,
-        'total_people':total_people
+        'total_people':total_people,
+        'rsvp_count':rsvp
     }
     return render(request,'manager_dashboard.html',context)
 
+@user_passes_test(is_admin,login_url='no-permission')
 def all_part(req):
-    all_part = Participant.objects.all()
+    all_part = User.objects.all()
     context={
         'all_part':all_part
     }
     return render(req,'participants.html',context)
 
+@login_required
+@permission_required("events.view_category", login_url='no-permission')
 def all_cat(req):
     all_cat = Category.objects.all()
     context={
@@ -79,6 +103,8 @@ def all_cat(req):
     }
     return render(req,'categories.html',context)
 
+@login_required
+@permission_required("events.change_event", login_url='no-permission')
 def update_event(request,id):
     event = Event.objects.get(id=id)
     event_form = EventModelForm(instance=event)
@@ -95,21 +121,8 @@ def update_event(request,id):
     context = {"event_form": event_form}
     return render(request, "event_update_form.html", context)
 
-def update_part(request,id):
-    part = Participant.objects.get(id=id)
-    part_form = ParticipantForm(instance=part)
-    print(part)
-
-    if request.method == "POST":
-        part_form = ParticipantForm(request.POST, instance=part)
-        if part_form.is_valid():
-            part_form.save()
-            messages.success(request, "Part Updated Successfully")
-            return redirect('all-part')
-
-    context = {"participants_form": part_form}
-    return render(request, "part_form.html", context)
-
+@login_required
+@permission_required("events.change_category", login_url='no-permission')
 def update_cat(request,id):
     cat = Category.objects.get(id=id)
     cat_form = CategoryForm(instance=cat)
@@ -125,9 +138,10 @@ def update_cat(request,id):
     context = {"category_form": cat_form}
     return render(request, "category_form.html", context)
 
+@user_passes_test(is_admin,login_url='no-permission')
 def delete_part(request, id):
     if request.method == 'POST':
-        part = Participant.objects.get(id=id)
+        part = User.objects.get(id=id)
         part.delete()
         messages.success(request, 'Part Deleted Successfully')
         return redirect('all-part')
@@ -135,6 +149,8 @@ def delete_part(request, id):
         messages.error(request, 'Something went wrong')
         return redirect('all-part')
 
+@login_required
+@permission_required("events.delete_category", login_url='no-permission')
 def delete_cat(request, id):
     if request.method == 'POST':
         cat = Category.objects.get(id=id)
@@ -145,6 +161,8 @@ def delete_cat(request, id):
         messages.error(request, 'Something went wrong')
         return redirect('all-cat')
 
+@login_required
+@permission_required("events.delete_event", login_url='no-permission')
 def delete_event(request, id):
     if request.method == 'POST':
         event = Event.objects.get(id=id)
@@ -167,19 +185,23 @@ def view_sin_event(req,id):
     }
     return render(req,'event_detail.html',context)
 
+@login_required
+@permission_required("events.add_event", login_url='no-permission')
 def create_event(request):
     if request.method == "POST":
-        event_form = EventModelForm(request.POST)
+        event_form = EventModelForm(request.POST,request.FILES)
         if event_form.is_valid():
             event_form.save()
             messages.success(request, "Event Created Successfully")
-            return redirect('create-event')
+            return redirect('home')
     else:
         event_form = EventModelForm()
 
     context = {"event_form": event_form}
     return render(request, "event_form.html", context)
 
+@login_required
+@permission_required("events.add_category", login_url='no-permission')
 def create_category(request):
     if request.method == "POST":
         category_form = CategoryForm(request.POST)
@@ -193,15 +215,29 @@ def create_category(request):
     context = {"category_form": category_form}
     return render(request, "category_form.html", context)
 
-def create_participants(request):
-    if request.method == "POST":
-        participants_form = ParticipantForm(request.POST)
-        if participants_form.is_valid():
-            participants_form.save()
-            messages.success(request, "Participants Created Successfully")
-            return redirect('create-participants')
-    else:
-        participants_form = ParticipantForm()
+@login_required
+def rsvp_event(request, id):
+    event = Event.objects.get(id=id)
+    user = request.user
+    rsvped=False
+    
+    # Check if user is already a participant
+    if user in event.participants.all():
+        messages.error(request, "You have RSVP Once")
+        return redirect('home') 
 
-    context = {"participants_form": participants_form}
-    return render(request, "part_form.html", context)
+    event.participants.add(user)
+
+    messages.success(request, "You have RSVP")
+    
+    return redirect('home') 
+
+@login_required
+def dashboard(request):
+    if is_organizer(request.user):
+        return redirect('manager-dashboard')
+    elif is_admin(request.user):
+        return redirect('manager-dashboard')
+    elif is_participant(request.user):
+        return redirect('manager-dashboard')
+    return redirect('no-permission')

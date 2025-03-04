@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 
-    <title>Event</title>
+    <title>Event Management</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -16,10 +16,17 @@
             <h1 class="text-2xl font-semibold">Event Management</h1>
             <div class="flex items-center gap-4 text-lg ">
               <a href="{% url 'home' %}" class="">Home</a>
-              <a href="{% url "manager-dashboard" %}">Dashboard</a>
-              <a href="{% url "show-opt" %}">Create & See</a>
-              <a href="{% url "create-group" %}">Create Groups</a>
-              <a href="{% url "group-list" %}">Groups</a>
+              <a href="{% url "dashboard" %}">Dashboard</a>
+              {% if request.user.is_authenticated %}
+                {% if user.groups.first.name != 'Participant' %}
+                  <a href="{% url "show-opt" %}">Create & See</a>
+                  {% if user.groups.first.name == 'Admin' %}
+                    <a href="{% url "create-group" %}">Create Groups</a>
+                    <a href="{% url "group-list" %}">Groups</a>
+                  {% endif %}
+                {% endif %}
+              {% endif %}
+              
 
             </div>
             <div class="flex gap-1">

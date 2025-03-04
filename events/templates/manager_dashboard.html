@@ -1,13 +1,8 @@
 {% extends "dashboard.html" %}
 {% block manage %}
 <div class="max-w-[1400px] font-[Poppins] mx-auto">
-    {% comment %} <div class="my-3">
-      <a href="{% url "all-part" %}" class="mb-5 bg-red-500 px-3 py-2 text-white mt-2 rounded-md">See all Participants</a>
-      <a href="{% url "all-cat"  %}" class="mb-5 bg-red-500 px-3 py-2 text-white mt-2 rounded-md">See all Categories</a>
-    </div> {% endcomment %}
 
-
-<div class="bg-black text-white rounded-xl shadow-lg">
+  <div class="bg-black text-white rounded-xl shadow-lg">
     <div
       class="grid grid-cols-4 p-4 border-b border-gray-100 text-lg  font-medium"
     >
@@ -18,29 +13,29 @@
     </div>
     <!-- Task Items  -->
     <div class="divide-y divide-gray-100">
-     {% for event in all_events %}
-       <!-- event 1 -->
-       <div class="grid grid-cols-4 gap-4 p-4 items-center">
-        <div class="flex items-center gap-2">
-          <a href="{% url "event-detail" event.id %}"><span>{{event.name}}</span></a>
-          
-          
+      {% for event in all_events %}
+        <!-- event 1 -->
+        <div class="grid grid-cols-4 gap-4 p-4 items-center">
+          <div class="flex items-center gap-2">
+            <a href="{% url "event-detail" event.id %}"><span>{{event.name}}</span></a>
+            
+            
+          </div>
+          <div>
+            <span
+              class="px-3 py-1 rounded-full bg-white text-black text-sm"
+              >{{event.category}}</span
+            >
+          </div>
+          <div class="flex -space-x-2">
+              {{event.participants.all|length}}
+          </div>
+          <div class="">{{event.date}}</div>
         </div>
-        <div>
-          <span
-            class="px-3 py-1 rounded-full bg-white text-black text-sm"
-            >{{event.category}}</span
-          >
-        </div>
-        <div class="flex -space-x-2">
-            {{event.participants.all|length}}
-        </div>
-        <div class="">{{event.date}}</div>
-      </div>
-     {% endfor %}
+      {% endfor %}
 
     </div>
-</div>
+  </div>
 
 </div>
 {% endblock manage %}

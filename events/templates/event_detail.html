@@ -10,9 +10,12 @@
 <body class="">
     {% extends "navbar.html" %}
     {% block events %}
-    <div class="max-w-[1400px]  mx-auto ">
+    <div class="max-w-[1400px] mb-4 mx-auto ">
         <div class="container mx-auto mt-3">
             <h1 class="text-3xl  font-semibold">Event Name: {{event.name}}</h1>
+            <div class="my-3 w-2/5">
+                <img src={{event.asset.url}} alt="Event Photo" class="w-full rounded-lg"/>
+            </div>
             <p class="text-xl my-5">Event Description: {{event.description}}</p>
             <br>
             
@@ -29,13 +32,15 @@
                     <p class="text-lg my-4">No Participants</p>
                 {% endfor %}
             </div>
-            <div class="flex gap-4">
-                <a href='{% url "update-event" event.id %}' class="rounded-md py-2 bg-black hover:bg-black/10 hover:text-black text-white px-4">Edit</a>
-                <form action='{% url "delete-event" event.id %}' method='POST'>
-                    {% csrf_token %}
-                    <button type='submit' class="rounded-md py-2 bg-black hover:bg-black/10 hover:text-black text-white px-4">Delete</button>
-                </form>
-            </div>
+            {% if user.groups.first.name != 'Participant'  %}
+                <div class="flex gap-4">
+                    <a href='{% url "update-event" event.id %}' class="rounded-md py-2 bg-black hover:bg-black/10 hover:text-black text-white px-4">Edit</a>
+                    <form action='{% url "delete-event" event.id %}' method='POST'>
+                        {% csrf_token %}
+                        <button type='submit' class="rounded-md py-2 bg-black hover:bg-black/10 hover:text-black text-white px-4">Delete</button>
+                    </form>
+                </div>
+            {% endif %}
 
         </div>
     </div>

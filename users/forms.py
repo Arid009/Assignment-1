@@ -7,12 +7,11 @@ from events.forms import StyledFormMixin
 
 class CustomRegistrationForm(StyledFormMixin, forms.ModelForm):
     password1 = forms.CharField(widget=forms.PasswordInput)
-    confirm_password = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name',
-                  'password1', 'confirm_password', 'email']
+                  'password1', 'email']
     
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -66,3 +65,9 @@ class CreateGroupForm(StyledFormMixin, forms.ModelForm):
     class Meta:
         model = Group
         fields = ['name', 'permissions']
+
+class AssignRoleForm(StyledFormMixin, forms.Form):
+    role = forms.ModelChoiceField(
+        queryset=Group.objects.all(),
+        empty_label="Select a Role"
+    )

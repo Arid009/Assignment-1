@@ -1,13 +1,15 @@
 from django.shortcuts import render, redirect,HttpResponse
-from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth.models import User,Group
-from django.contrib.auth import login, authenticate, logout
-from users.forms import CustomRegistrationForm,LoginForm,CreateGroupForm
+from django.contrib.auth import login, logout
+from users.forms import CustomRegistrationForm,LoginForm,CreateGroupForm,AssignRoleForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.tokens import default_token_generator
 
 # Create your views here.
+
+def is_admin(user):
+    return user.groups.filter(name='Admin').exists()
 
 def sign_up(request):
         
@@ -20,7 +22,7 @@ def sign_up(request):
             user.is_active=False
             user.save()
             messages.success(request,'A confirmation mail sent. Please check your email')
-        return redirect('sign-in')
+            return redirect('sign-in')
 
 
     return render(request,'register.html',{'form':form})
@@ -32,10 +34,13 @@ def sign_in(req):
         if form.is_valid():
             user = form.get_user()
             login(req,user)
-            return redirect('home')
+            messages.success(req, "Login successfully")
+            
+            return redirect('dashboard')
         
     return render(req,'login.html',{'form':form})
 
+@login_required
 def sign_out(request):
     if request.method == 'POST':
         logout(request)
@@ -54,6 +59,7 @@ def activate_user(request,user_id,token):
     except User.DoesNotExist:
         return HttpResponse('User not found')
     
+@user_passes_test(is_admin,login_url='no-permission')
 def create_group(req):
     form = CreateGroupForm()
     if req.method=='POST':
@@ -65,10 +71,12 @@ def create_group(req):
     
     return render(req, 'admin/create_group.html', {'form': form})
 
+@user_passes_test(is_admin,login_url='no-permission')
 def group_list(request):
     groups = Group.objects.prefetch_related('permissions').all()
     return render(request, 'admin/group_list.html', {'groups': groups})
 
+@user_passes_test(is_admin,login_url='no-permission')
 def delete_group(req,id):
     if req.method == 'POST':
         group = Group.objects.get(id=id)
@@ -78,3 +86,31 @@ def delete_group(req,id):
     else:
         messages.error(req, 'Something went wrong')
         return redirect('group-list')
+
+@user_passes_test(is_admin,login_url='no-permission')
+def delete_user(req,id):
+    if req.method == 'POST':
+        user = User.objects.get(id=id)
+        user.delete()
+        messages.success(req, 'User Deleted Successfully')
+        return redirect('all-part')
+    else:
+        messages.error(req, 'Something went wrong')
+        return redirect('all-part')
+        
+
+@user_passes_test(is_admin,login_url='no-permission')
+def assign_role(request, user_id):
+    user = User.objects.get(id=user_id)
+    form = AssignRoleForm()
+    
+    if request.method == 'POST':
+        form = AssignRoleForm(request.POST)
+        if form.is_valid():
+            role = form.cleaned_data.get('role')
+            user.groups.clear() # Remove old roles
+            user.groups.add(role)
+            messages.success(request, f"User {user.username} has been assigned to the {role.name} role")
+            return redirect('all-part')
+    
+    return render(request, 'admin/assign_role.html', {"form": form})

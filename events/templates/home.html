@@ -59,6 +59,7 @@
 
                     </div>
                 </div>
+                
 
                 <div class="px-2 grid grid-cols-2 gap-4">
                     {% for event in all_events %}
@@ -77,6 +78,7 @@
                                 <br>
 
                                 <a href="{% url "event-detail" event.id %}" class="py-3 mt-5  rounded-lg bg-white hover:bg-white/40 hover:text-white text-black px-4">Detail</a>
+                                <a href="{% url "rsvp_event" event.id %}" class="py-3 mt-5  rounded-lg bg-white hover:bg-white/40 hover:text-white text-black px-4">RSVP</a>
                             </div>
                         </div>
                         {% empty %}
@@ -90,6 +92,20 @@
 
         
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        {% if messages %}
+            {% for message in messages %}
+                Swal.fire({
+                    title: "{{message.tags|title}}",
+                    text: "{{message}}",
+                    icon: "{{message.tags}}",
+                    timer:2000
+                })
+            {% endfor %}
+        {% endif %}
+        
+    </script>
     {% endblock events %}
 </body>
 </html>
