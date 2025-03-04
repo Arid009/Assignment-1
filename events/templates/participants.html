@@ -71,7 +71,7 @@
                             Change Role
                         </a>
                         <br>
-                        <form action='{% url "delete-group" user.id %}' method='POST'>
+                        <form action='{% url "delete-part" user.id %}' method='POST'>
                             {% csrf_token %}
                             <button type='submit' class="rounded-md py-2 bg-black hover:bg-black/10 hover:text-black text-white px-4">Delete</button>
                         </form>
