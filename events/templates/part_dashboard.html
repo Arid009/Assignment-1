@@ -18,7 +18,7 @@
         <main>
             <div class="grid grid-cols-4 mt-4 gap-6 mb-8">
                 <!-- Total Events  -->
-                <a href="{% url 'manager-dashboard' %}?type=all">
+                <a href="{% url 'part-dashboard' %}?type=all">
                     <div class="hover:bg-black hover:text-white rounded-xl bg-gray-200 p-6 shadow-sm">
                         <h3 class="text-lg font-medium  mb-4">Total Events</h3>
                         <div class="flex justify-between items-start">
@@ -27,21 +27,20 @@
                             </div>
                         </div>
                     </div>
-                </a> 
-                <!-- Participants  -->
-                <div class=" rounded-xl bg-gray-200 p-6 shadow-sm">
-                    <h3 class="text-lg font-medium  mb-4">
-                        Participants
-                    </h3>
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-3xl font-medium mb-1">{{total_people}} </p>
+                </a>
+                <a href="{% url 'part-dashboard' %}?type=rsvp">
+                    <div class="hover:bg-black hover:text-white rounded-xl bg-gray-200 p-6 shadow-sm">
+                        <h3 class="text-lg font-medium  mb-4">RSVP Events</h3>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-3xl font-medium mb-1">{{rsvp_count}} </p>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
 
                 <!-- Previous  -->
-                <a href="{% url 'manager-dashboard' %}?type=previous">
+                <a href="{% url 'part-dashboard' %}?type=previous">
 
                     <div class="hover:bg-black hover:text-white rounded-xl bg-gray-200 p-6 shadow-sm">
                         <h3 class="text-lg font-medium  mb-4">
@@ -55,7 +54,7 @@
                     </div>
                 </a>
                 <!-- upcoming-->
-                <a href="{% url 'manager-dashboard' %}?type=upcoming">
+                <a href="{% url 'part-dashboard' %}?type=upcoming">
 
                     <div class="hover:bg-black hover:text-white rounded-xl bg-gray-200 p-6 shadow-sm">
                         <h3 class="text-lg font-medium  mb-4">Upcoming Events</h3>
@@ -69,9 +68,9 @@
                 </a>
             </div>
 
-            {% block manage %}
+            {% block participant_dashboard %}
               
-            {% endblock manage %}
+            {% endblock participant_dashboard %}
         </main>
 
 

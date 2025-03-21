@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
+
 
 # Create your models here.
 class Category(models.Model):
@@ -18,7 +20,7 @@ class Event(models.Model):
     time = models.TimeField(auto_now_add=True)
     location = models.CharField(max_length=200)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    participants = models.ManyToManyField(User,related_name="events")
+    participants = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name="events")
     asset=models.ImageField(upload_to='events_asset', blank=True,null=True,default="events_asset/default_img.jpg")
 
 

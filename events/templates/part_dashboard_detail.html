@@ -1,5 +1,5 @@
-{% extends "dashboard.html" %}
-{% block manage %}
+{% extends "part_dashboard.html" %}
+{% block participant_dashboard %}
 <div class="max-w-[1400px] font-[Poppins] mx-auto">
 
   <div class="bg-black text-white rounded-xl shadow-lg">
@@ -37,19 +37,5 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        {% if messages %}
-            {% for message in messages %}
-                Swal.fire({
-                    title: "{{message.tags|title}}",
-                    text: "{{message}}",
-                    icon: "{{message.tags}}",
-                    timer:2000
-                })
-            {% endfor %}
-        {% endif %}
-        
-    </script>
 </div>
-{% endblock manage %}
+{% endblock participant_dashboard %}

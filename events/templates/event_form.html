@@ -20,7 +20,7 @@
         </div>
         <form method="POST" enctype='multipart/form-data'>
             {% csrf_token %}
-            {{ event_form }}
+            {{ form }}
             <button class="mb-5 bg-black hover:bg-black/20 hover:text-black px-3 py-2 text-white mt-2 rounded-md" type="submit">Submit</button>
         </form>
     </div>
